@@ -26,12 +26,14 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "lowdb": "^7.0.1",
     "morgan": "^1.10.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/lowdb": "^1.0.15",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.2.1",
     "ts-node-dev": "^2.0.0",
