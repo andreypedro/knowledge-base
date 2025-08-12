@@ -15,10 +15,7 @@ app.get("/", (req, res, next) => {
   res.json({ message: "Server is running" });
 });
 
-app.post(
-  "/auth/login",
-  require("./controllers/auth.controller").AuthController.login
-);
+app.post("/auth/login", require("./controllers/auth.controller").login);
 
 // protected routes
 // app.use(authMiddleware);
