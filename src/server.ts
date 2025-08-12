@@ -10,9 +10,18 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 
+// public route
 app.get("/", (req, res, next) => {
   res.json({ message: "Server is running" });
 });
+
+app.post(
+  "/auth/login",
+  require("./controllers/auth.controller").AuthController.login
+);
+
+// protected routes
+// app.use(authMiddleware);
 
 const PORT = process.env.PORT ?? 3000;
 app.listen(PORT, () => {
