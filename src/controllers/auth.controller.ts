@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../core/errors/UnauthorizedError";
+import { db } from "../config/db";
 
 const secret = process.env.JWT_SECRET ?? "dev-secret";
 const expiresIn = "1h";
@@ -13,10 +14,7 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
       throw new UnauthorizedError("Email is required");
     }
 
-    const user = {
-      id: 1,
-      email,
-    };
+    const user = db.data.users.find((u) => u.email === email);
     if (!user) {
       throw new UnauthorizedError("Invalid credentials");
     }
