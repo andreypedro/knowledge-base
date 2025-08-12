@@ -1,5 +1,5 @@
-import low from "lowdb";
-import FileSync from "lowdb/adapters/FileSync";
+import { Low } from "lowdb";
+import { JSONFile } from "lowdb/node";
 import { ITopics } from "../models/ITopic";
 import { IResources } from "../models/IResource";
 import { IUsers } from "../models/IUser";
@@ -10,4 +10,15 @@ type Schema = {
   users: IUsers[];
 };
 
-const adapter = new FileSync<Schema>("data.json");
+const defaultData: Schema = { topics: [], resources: [], users: [] };
+
+const adapter = new JSONFile<Schema>("../data/db.json");
+export const db = new Low<Schema>(adapter, defaultData);
+
+export async function initDb() {
+  await db.read();
+  if (!db.data) {
+    db.data = defaultData;
+    await db.write();
+  }
+}
