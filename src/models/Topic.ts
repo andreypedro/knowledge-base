@@ -1,7 +1,7 @@
 import { BaseEntity } from "../core/BaseEntity";
-import { ITopics } from "./ITopic";
+import { ITopic } from "./ITopic";
 
-export class Topic extends BaseEntity implements ITopics {
+export class Topic extends BaseEntity implements ITopic {
   public name: string;
   public content: string;
   public version: number;

@@ -4,7 +4,7 @@ export enum UserRole {
   VIEWER = "Viewer",
 }
 
-export interface IUsers {
+export interface IUser {
   id: string;
   name: string;
   email: string;
