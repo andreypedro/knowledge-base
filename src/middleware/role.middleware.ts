@@ -4,14 +4,6 @@ import { StrategyFactory } from "../strategies/StrategyFactory";
 import { PermissionError } from "../core/errors/PermissionError";
 import { IUser } from "../models/IUser";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: IUser;
-    }
-  }
-}
-
 export const authorize = (action: keyof RoleStrategy) => {
   return (req: Request, _res: Response, next: NextFunction) => {
     const user = req.user;

@@ -4,6 +4,14 @@ import { db } from "../config/db";
 import { IUser } from "../models/IUser";
 import { UnauthorizedError } from "../core/errors/UnauthorizedError";
 
+declare global {
+  namespace Express {
+    interface Request {
+      user: IUser;
+    }
+  }
+}
+
 const secret = process.env.JWT_SECRET ?? "dev-secret";
 
 export const authMiddleware = async (
@@ -23,7 +31,7 @@ export const authMiddleware = async (
     ) as IUser;
     if (!user) throw new UnauthorizedError("User not found");
 
-    req.user = user;
+    req.user = user as IUser;
     next();
   } catch (err) {
     next(new UnauthorizedError("Invalid token"));

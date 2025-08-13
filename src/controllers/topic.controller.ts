@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { TopicService } from "../services/TopicService";
-// import { RequestAuthenticated } from "../types/RequestAuthenticated";
 
 export const TopicController = {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -23,10 +22,7 @@ export const TopicController = {
       };
 
       const topicService = new TopicService();
-      const createdTopic = await topicService.create(
-        newTopic,
-        "creator-user-id"
-      );
+      const createdTopic = await topicService.create(newTopic, req.user.id);
 
       res.status(201).json(createdTopic);
     } catch (err) {
