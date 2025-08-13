@@ -67,10 +67,8 @@ export const TopicController = {
   async getTree(req: Request, res: Response, next: NextFunction) {
     try {
       const topicService = new TopicService();
-      // const tree = await topicService.getTree(req.params.id);
-      // res.json(tree);
-
-      res.json({ message: "Get shortest path" });
+      const tree = await topicService.getTree(req.params.id);
+      res.json(tree);
     } catch (err) {
       next(err);
     }
@@ -79,10 +77,8 @@ export const TopicController = {
     try {
       const { fromId, toId } = req.body;
       const topicService = new TopicService();
-      // const path = await topicService.getShortestPath(fromId, toId);
-      // res.json(path);
-
-      res.json({ message: "Get shortest path" });
+      const path = await topicService.getShortestPath(fromId, toId);
+      res.json(path);
     } catch (err) {
       next(err);
     }

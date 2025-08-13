@@ -5,14 +5,14 @@ import { authorize } from "../middleware/role.middleware";
 const router = Router();
 
 router.post("/", authorize("canCreateTopic"), TopicController.create);
-router.get("/:id", authorize("canViewTopic"), TopicController.get);
 router.put("/:id", authorize("canUpdateTopic"), TopicController.update);
 router.delete("/:id", authorize("canDeleteTopic"), TopicController.delete);
-router.get("/tree", authorize("canViewTopic"), TopicController.getTree);
 router.get(
   "/shortest-path",
   authorize("canViewTopic"),
   TopicController.shortestPath
 );
+router.get("/:id", authorize("canViewTopic"), TopicController.get);
+router.get("/:id/tree", authorize("canViewTopic"), TopicController.getTree);
 
 export default router;

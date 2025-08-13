@@ -3,8 +3,8 @@ import { ITopic } from "../models/ITopic";
 import { Topic } from "../models/Topic";
 import { TopicFactory } from "../factories/TopicFactory";
 import { NotFoundError } from "../core/errors/NotFoundError";
-// import { TopicNode } from "../composites/TopicNode";
-// import { shortestPath } from "../utils/graph.utils";
+import { TopicNode } from "../composites/TopicNode";
+import { shortestPath } from "../utils/graph.utils";
 
 export class TopicService {
   private readonly collection: ITopic[] = db.data?.topics ?? [];
@@ -99,67 +99,63 @@ export class TopicService {
     }
   }
 
-  //   async getTree(rootId: string): Promise<TopicNode> {
-  //     const all = await this.collection.value();
+  async getTree(rootId: string): Promise<TopicNode> {
+    const all = this.collection;
 
-  //     // Map <id, ITopic> contendo a versão mais recente
-  //     const latestMap = new Map<string, ITopic>();
-  //     all
-  //       .sort((a, b) => a.version - b.version) // ascendente → última ficará por cima
-  //       .forEach((t) => latestMap.set(t.id, t));
+    const latestMap = new Map<string, ITopic>();
+    all
+      .sort((a, b) => a.version - b.version) // asc
+      .forEach((t) => latestMap.set(t.id, t));
 
-  //     if (!latestMap.has(rootId)) throw new NotFoundError("Root topic not found");
+    if (!latestMap.has(rootId)) throw new NotFoundError("Root topic not found");
 
-  //     // Cria nós para cada tópico
-  //     const nodeMap = new Map<string, TopicNode>();
-  //     latestMap.forEach((t) => {
-  //       const node = new TopicNode(
-  //         new Topic(
-  //           t.name,
-  //           t.content,
-  //           t.version,
-  //           t.parentTopicId,
-  //           t.id,
-  //           t.createdAt,
-  //           t.updatedAt
-  //         )
-  //       );
-  //       nodeMap.set(t.id, node);
-  //     });
+    const nodeMap = new Map<string, TopicNode>();
+    latestMap.forEach((t) => {
+      const node = new TopicNode(
+        new Topic(
+          t.name,
+          t.content,
+          t.version,
+          t.parentTopicId,
+          t.id,
+          t.createdAt
+        )
+      );
+      nodeMap.set(t.id, node);
+    });
 
-  //     let rootNode: TopicNode | undefined;
+    let rootNode: TopicNode | undefined;
 
-  //     nodeMap.forEach((node) => {
-  //       const parentId = node.topic.parentTopicId;
-  //       if (!parentId) {
-  //         if (node.topic.id === rootId) rootNode = node;
-  //         return;
-  //       }
-  //       const parentNode = nodeMap.get(parentId);
-  //       parentNode?.addChild(node);
-  //     });
+    nodeMap.forEach((node) => {
+      const parentId = node.topic.parentTopicId;
+      if (!parentId) {
+        if (node.topic.id === rootId) rootNode = node;
+        return;
+      }
+      const parentNode = nodeMap.get(parentId);
+      parentNode?.addChild(node);
+    });
 
-  //     if (!rootNode) throw new NotFoundError("Root node could not be resolved");
-  //     return rootNode;
-  //   }
+    if (!rootNode) throw new NotFoundError("Root node could not be resolved");
+    return rootNode;
+  }
 
-  //   async getShortestPath(fromId: string, toId: string): Promise<string[]> {
+  async getShortestPath(fromId: string, toId: string): Promise<string[]> {
+    const fromExists = this.collection.some((t) => t.id === fromId);
+    const toExists = this.collection.some((t) => t.id === toId);
 
-  //     const fromExists = await this.collection.some({ id: fromId }).value();
-  //     const toExists = await this.collection.some({ id: toId }).value();
+    if (!fromExists) throw new NotFoundError("Source topic not found");
+    if (!toExists) throw new NotFoundError("Destination topic not found");
 
-  //     if (!fromExists) throw new NotFoundError("Source topic not found");
-  //     if (!toExists) throw new NotFoundError("Destination topic not found");
-
-  //     return shortestPath(fromId, toId, async () => {
-  //       const all = await this.collection.value();
-  //       const latest = new Map<string, ITopic>();
-  //       all
-  //         .sort((a, b) => a.version - b.version)
-  //         .forEach((t) => latest.set(t.id, t));
-  //       return Array.from(latest.values());
-  //     });
-  //   }
+    return shortestPath(fromId, toId, async () => {
+      const all = this.collection;
+      const latest = new Map<string, ITopic>();
+      all
+        .sort((a, b) => a.version - b.version)
+        .forEach((t) => latest.set(t.id, t));
+      return Array.from(latest.values());
+    });
+  }
 }
 
 export const topicService = new TopicService();
