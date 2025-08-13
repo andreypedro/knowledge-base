@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import topicRouter from "./routes/topic.routes";
+import { authMiddleware } from "./middleware/auth.middleware";
+import { errorHandler } from "./middleware/error.middleware";
 
 const app = express();
 
@@ -11,14 +14,14 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // public route
-app.get("/", (req, res, next) => {
-  res.json({ message: "Server is running" });
-});
-
 app.post("/auth/login", require("./controllers/auth.controller").login);
 
 // protected routes
-// app.use(authMiddleware);
+app.use(authMiddleware);
+app.use("/topics", topicRouter);
+
+// error handler
+app.use(errorHandler);
 
 const PORT = process.env.PORT ?? 3000;
 app.listen(PORT, () => {

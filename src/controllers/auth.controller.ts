@@ -4,7 +4,7 @@ import { UnauthorizedError } from "../core/errors/UnauthorizedError";
 import { db } from "../config/db";
 
 const secret = process.env.JWT_SECRET ?? "dev-secret";
-const expiresIn = "1h";
+const expiresIn = "24h";
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
   try {
