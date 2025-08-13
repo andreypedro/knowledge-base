@@ -15,7 +15,6 @@ export const TopicController = {
       const newTopic = {
         name,
         content,
-        version: 1,
         parentTopicId: parentTopicId || null,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -30,21 +29,62 @@ export const TopicController = {
     }
   },
   async get(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-    res.json({ message: "Get topic by ID" });
+    try {
+      const { id } = req.params;
+      const topicService = new TopicService();
+      const topic = await topicService.getById(id);
+      if (!topic) {
+        return res.status(404).json({ message: "Topic not found" });
+      }
+      res.json(topic);
+    } catch (err) {
+      next(err);
+    }
   },
   async update(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
-    res.json({ message: "Update topic by ID" });
+    const payload = req.body;
+
+    try {
+      const topicService = new TopicService();
+      const updatedTopic = await topicService.update(id, payload, req.user.id);
+      res.json(updatedTopic);
+    } catch (err) {
+      next(err);
+    }
   },
   async delete(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
-    res.json({ message: "Delete topic by ID" });
+
+    try {
+      const topicService = new TopicService();
+      await topicService.delete(id);
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
   },
   async getTree(req: Request, res: Response, next: NextFunction) {
-    res.json({ message: "Get topic tree" });
+    try {
+      const topicService = new TopicService();
+      // const tree = await topicService.getTree(req.params.id);
+      // res.json(tree);
+
+      res.json({ message: "Get shortest path" });
+    } catch (err) {
+      next(err);
+    }
   },
   async shortestPath(req: Request, res: Response, next: NextFunction) {
-    res.json({ message: "Get shortest path" });
+    try {
+      const { fromId, toId } = req.body;
+      const topicService = new TopicService();
+      // const path = await topicService.getShortestPath(fromId, toId);
+      // res.json(path);
+
+      res.json({ message: "Get shortest path" });
+    } catch (err) {
+      next(err);
+    }
   },
 };

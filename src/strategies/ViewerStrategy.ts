@@ -11,4 +11,10 @@ export class ViewerStrategy implements RoleStrategy {
   canViewTopic(_: Request) {
     return true;
   }
+  canDeleteTopic(_: Request) {
+    return false;
+  }
+  canUpdateTopic(_: Request) {
+    return false;
+  }
 }

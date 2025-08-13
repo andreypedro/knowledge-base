@@ -20,7 +20,7 @@ export class TopicService {
 
     const topic = TopicFactory.create({
       ...payload,
-      version: 1,
+      version: 0,
     });
     const record: ITopic = {
       ...topic,
@@ -77,7 +77,7 @@ export class TopicService {
       name: merged.name,
       content: merged.content,
       parentTopicId: merged.parentTopicId,
-      version: latest.version + 1,
+      version: latest.version,
     });
 
     const record: ITopic = {

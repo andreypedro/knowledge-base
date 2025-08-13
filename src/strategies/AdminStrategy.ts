@@ -11,4 +11,10 @@ export class AdminStrategy implements RoleStrategy {
   canViewTopic(_: Request) {
     return true;
   }
+  canDeleteTopic(_: Request) {
+    return true;
+  }
+  canUpdateTopic(_: Request) {
+    return true;
+  }
 }

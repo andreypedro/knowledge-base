@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from "express";
 
 export interface RoleStrategy {
   canCreateTopic(req: Request): boolean;
+  canDeleteTopic(req: Request): boolean;
+  canUpdateTopic(req: Request): boolean;
   canEditTopic(req: Request): boolean;
   canViewTopic(req: Request): boolean;
 }
