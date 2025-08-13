@@ -4,21 +4,21 @@ import { UserRole } from "../models/IUser";
 export const mockData: Schema = {
   users: [
     {
-      id: "1",
-      name: "Andrey",
-      email: "andrey@andrey.com.br",
+      id: "a1b2c3d4-1111-2222-3333-444455556666",
+      name: "Admin",
+      email: "admin@example.com",
       role: UserRole.ADMIN,
       createdAt: new Date("2025-08-12T00:00:00Z"),
     },
     {
-      id: "2",
+      id: "b2c3d4e5-7777-8888-9999-000011112222",
       name: "Editor",
       email: "editor@example.com",
       role: UserRole.EDITOR,
       createdAt: new Date("2025-08-12T00:00:00Z"),
     },
     {
-      id: "3",
+      id: "c3d4e5f6-3333-4444-5555-666677778888",
       name: "Viewer",
       email: "viewer@example.com",
       role: UserRole.VIEWER,
@@ -72,5 +72,33 @@ export const mockData: Schema = {
       updatedAt: new Date("2025-08-12T14:00:00Z"),
     },
   ],
-  resources: [],
+  resources: [
+    {
+      id: "f1e2d3c4-1111-2222-3333-444455556666",
+      topicId: "a1e2b3c4-1111-2222-3333-444455556666",
+      url: "https://example.com/root-topic-article",
+      description: "Article about the root topic.",
+      type: "article",
+      createdAt: new Date("2025-08-12T15:00:00Z"),
+      updatedAt: new Date("2025-08-12T15:00:00Z"),
+    },
+    {
+      id: "e2d3c4b5-7777-8888-9999-000011112222",
+      topicId: "b2c3d4e5-7777-8888-9999-000011112222",
+      url: "https://example.com/child-topic-1-video",
+      description: "Video for child topic 1.",
+      type: "video",
+      createdAt: new Date("2025-08-12T16:00:00Z"),
+      updatedAt: new Date("2025-08-12T16:00:00Z"),
+    },
+    {
+      id: "d3c4b5a6-9999-aaaa-bbbb-ccccddddeeee",
+      topicId: "d4e5f6a7-9999-aaaa-bbbb-ccccddddeeee",
+      url: "https://example.com/grandchild-topic-pdf",
+      description: "PDF for grandchild topic.",
+      type: "pdf",
+      createdAt: new Date("2025-08-12T17:00:00Z"),
+      updatedAt: new Date("2025-08-12T17:00:00Z"),
+    },
+  ],
 };

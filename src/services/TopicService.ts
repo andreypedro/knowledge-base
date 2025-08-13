@@ -30,7 +30,7 @@ export class TopicService {
     return record;
   }
 
-  private async getLatestVersion(topicId: string): Promise<ITopic | null> {
+  public async getLatestVersion(topicId: string): Promise<ITopic | null> {
     const versions = this.collection
       .filter((t) => t.id === topicId)
       .sort((a, b) => b.version - a.version);
