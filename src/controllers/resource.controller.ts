@@ -6,7 +6,7 @@ export const ResourceController = {
     const { body } = req;
     try {
       const resourceService = new ResourceService();
-      const resource = await resourceService.create(body, req.user.id);
+      const resource = await resourceService.create(body);
       res.status(201).json(resource);
     } catch (err) {
       next(err);

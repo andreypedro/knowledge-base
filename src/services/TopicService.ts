@@ -10,8 +10,7 @@ export class TopicService {
   private readonly collection: ITopic[] = db.data?.topics ?? [];
 
   async create(
-    payload: Omit<ITopic, "id" | "createdAt" | "updatedAt" | "version">,
-    creatorUserId: string
+    payload: Omit<ITopic, "id" | "createdAt" | "updatedAt" | "version">
   ): Promise<ITopic> {
     if (payload.parentTopicId) {
       const parent = await this.getLatestVersion(payload.parentTopicId);
@@ -52,10 +51,7 @@ export class TopicService {
 
   async update(
     id: string,
-    payload: Partial<
-      Omit<ITopic, "id" | "createdAt" | "updatedAt" | "version">
-    >,
-    updaterUserId: string
+    payload: Partial<Omit<ITopic, "id" | "createdAt" | "updatedAt" | "version">>
   ): Promise<ITopic> {
     const latest = await this.getLatestVersion(id);
     if (!latest) throw new NotFoundError("Topic not found");

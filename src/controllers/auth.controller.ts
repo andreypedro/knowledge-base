@@ -1,28 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../core/errors/UnauthorizedError";
-import { db } from "../config/db";
+import { authService } from "../services/AuthService";
 
-const secret = process.env.JWT_SECRET ?? "dev-secret";
-const expiresIn = "24h";
-
-export const login = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { email } = req.body;
-
-    if (!email) {
-      throw new UnauthorizedError("Email is required");
+export const AuthController = {
+  login: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        throw new UnauthorizedError("Email and password are required");
+      }
+      const token = await authService.authenticate(email, password);
+      res.json({ token });
+    } catch (err) {
+      next(err);
     }
-
-    const user = db.data.users.find((u) => u.email === email);
-    if (!user) {
-      throw new UnauthorizedError("Invalid credentials");
-    }
-
-    const token = jwt.sign({ sub: user.id }, secret, { expiresIn });
-
-    res.json({ token });
-  } catch (err) {
-    next(err);
-  }
+  },
 };

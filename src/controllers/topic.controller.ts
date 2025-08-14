@@ -21,7 +21,7 @@ export const TopicController = {
       };
 
       const topicService = new TopicService();
-      const createdTopic = await topicService.create(newTopic, req.user.id);
+      const createdTopic = await topicService.create(newTopic);
 
       res.status(201).json(createdTopic);
     } catch (err) {
@@ -47,7 +47,7 @@ export const TopicController = {
 
     try {
       const topicService = new TopicService();
-      const updatedTopic = await topicService.update(id, payload, req.user.id);
+      const updatedTopic = await topicService.update(id, payload);
       res.json(updatedTopic);
     } catch (err) {
       next(err);

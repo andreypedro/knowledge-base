@@ -10,8 +10,7 @@ export class ResourceService {
   private readonly topicService = new TopicService();
 
   async create(
-    payload: Omit<IResource, "id" | "createdAt" | "updatedAt">,
-    creatorUserId: string
+    payload: Omit<IResource, "id" | "createdAt" | "updatedAt">
   ): Promise<IResource> {
     const topicExists = await this.topicService.getLatestVersion(
       payload.topicId

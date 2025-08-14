@@ -8,7 +8,7 @@ import { mockData } from "../data/mockData";
 export type Schema = {
   topics: ITopic[] | [];
   resources: IResource[] | [];
-  users: IUser[] | [];
+  users: IUser[];
 };
 
 const defaultData: Schema = mockData;

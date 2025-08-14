@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-const secret = process.env.JWT_SECRET ?? "dev-secret";
+const secret = process.env.JWT_SECRET ?? "jwt_secret";
 
 export const authMiddleware = async (
   req: Request,
@@ -24,16 +24,19 @@ export const authMiddleware = async (
     return next(new UnauthorizedError("Missing token"));
 
   const token = authHeader.split(" ")[1];
+
   try {
-    const payload = jwt.verify(token, secret) as { sub: string };
-    const user = db.data?.users?.find(
-      (u: IUser) => u.id === payload.sub
-    ) as IUser;
+    if (!secret) throw new Error("Missing JWT secret");
+
+    const payload = jwt.verify(token, secret) as IUser;
+
+    const user = db.data?.users?.find((u: IUser) => u.id === payload.id);
+
     if (!user) throw new UnauthorizedError("User not found");
 
     req.user = user as IUser;
     next();
   } catch (err) {
-    next(new UnauthorizedError("Invalid token"));
+    next(new UnauthorizedError("Invalid token 2"));
   }
 };

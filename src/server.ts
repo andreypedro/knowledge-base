@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import authRouter from "./routes/auth.routes";
 import topicRouter from "./routes/topic.routes";
 import resourceRouter from "./routes/resource.routes";
 import { authMiddleware } from "./middleware/auth.middleware";
@@ -15,7 +16,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // public route
-app.post("/auth/login", require("./controllers/auth.controller").login);
+app.use("/auth", authRouter);
 
 // protected routes
 app.use(authMiddleware);
@@ -26,6 +27,10 @@ app.use("/resources", resourceRouter);
 app.use(errorHandler);
 
 const PORT = process.env.PORT ?? 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+export default app;
