@@ -54,23 +54,31 @@ npm test
 
 ### Authentication
 
-- `POST /login`: Authenticate a user.
-
 ### Resources
-
-- `GET /resources/:id`: Get a resource by ID.
-- `DELETE /resources/:id`: Delete a resource by ID.
-- `POST /resources`: Create a new resource.
 
 ### Topics
 
-- `POST /topics`: Create a new topic.
-- `PUT /topics/:id`: Update a topic by ID.
-- `DELETE /topics/:id`: Delete a topic by ID.
-- `GET /topics/shortest-path`: Get the shortest path between topics.
-- `GET /topics/:id`: Get a topic by ID.
-- `GET /topics/:id/tree`: Get the topic tree by ID.
-- `GET /topics/:id/resources`: List resources associated with a topic.
+## Environment Setup
+
+Before starting the project, copy the `.env.sample` file to `.env`:
+
+```sh
+cp .env.sample .env
+```
+
+## Mocked Users for Navigation
+
+You can access the system using the following mocked users:
+
+- **Admin:**
+  - email: `admin@example.com`
+  - password: `admin`
+- **Editor:**
+  - email: `editor@example.com`
+  - password: `editor`
+- **Viewer:**
+  - email: `viewer@example.com`
+  - password: `viewer`
 
 ## License
 
